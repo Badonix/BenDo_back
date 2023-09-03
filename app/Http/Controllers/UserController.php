@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\UniqueRequest;
 use App\Http\Requests\User\SignupRequest;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -17,5 +18,11 @@ class UserController extends Controller
         $attributes['password'] = Hash::make($attributes['password']);
         $user = User::create($attributes);
         return response($user, 201);
+    }
+
+    public function check(UniqueRequest $request)
+    {
+        $request->validated();
+        return response('', 200);
     }
 }
