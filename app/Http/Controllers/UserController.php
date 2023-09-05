@@ -16,6 +16,7 @@ class UserController extends Controller
         $attributes["avatar"] = $avatarPath;
         $attributes['password'] = Hash::make($attributes['password']);
         $user = User::create($attributes);
+        $user->sendEmailVerificationNotification();
         return response($user, 201);
     }
 
