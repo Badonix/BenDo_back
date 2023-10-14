@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\User\LoginRequest;
 use App\Http\Requests\UniqueRequest;
 use App\Http\Requests\User\SignupRequest;
 use App\Models\User;
@@ -24,5 +25,19 @@ class UserController extends Controller
     {
         $request->validated();
         return response('', 200);
+    }
+
+    public function login(LoginRequest $request)
+    {
+        $attributes = $request->validated();
+        $field = filter_var($attributes['login'], FILTER_VALIDATE_EMAIL) ? 'email' : 'username';
+        $attributes[$field] = $attributes['login'];
+        unset($attributes['login']);
+
+        if(auth()->attempt($attributes)) {
+            // request()->session()->regenerate();
+            return response(['user' => auth()->user()]);
+        }
+        return response("Unauthorized", 401);
     }
 }

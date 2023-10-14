@@ -22,3 +22,5 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 
 Route::post('/signup', [UserController::class, 'store']);
 Route::post('/unique', [UserController::class, 'check']);
+
+Route::post('/login', [UserController::class, "login"]);
