@@ -35,7 +35,6 @@ class UserController extends Controller
         unset($attributes['login']);
 
         if(auth()->attempt($attributes)) {
-            // request()->session()->regenerate();
             return response(['user' => auth()->user()]);
         }
         return response("Unauthorized", 401);
